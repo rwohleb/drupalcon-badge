@@ -3,265 +3,106 @@
   <head>
     <title>Drupalcon Badge</title>
     
-    <style>
-      body {
-        background: #EEE;
-      }
-      
-      #output {
-        background: transparent url(badge.png);
-        position: relative;
-        width: 750px;
-        height: 550px;
-      }
-      #badgecanvas {
-        position: absolute;
-        left: 0px;
-        top: 230px;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="badge.css" />
     
     <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="qrcode.js"></script>
+    <script type="text/javascript" src="badge.js"></script>
+    <script type="text/javascript" src="DYMO.Label.Framework.1.2.4.js"></script>
     <script type="text/javascript">
-      function printBadge(el) {
-        var dataUrl = document.getElementById(el).toDataURL(); //attempt to save base64 string to server using this var  
-        var windowContent = '<!DOCTYPE html>';
-        windowContent += '<html>'
-        windowContent += '<head><title>Print canvas</title></head>';
-        windowContent += '<body>'
-        windowContent += '<img src="' + dataUrl + '">';
-        windowContent += '</body>';
-        windowContent += '</html>';
-        var printWin = window.open('','','width=340,height=260');
-        printWin.document.open();
-        printWin.document.write(windowContent);
-        printWin.document.close();
-        printWin.focus();
-        printWin.print();
-        //printWin.close();
-      }
-      function drawBadge(el) {
-        var canvas = document.getElementById(el);
-        if (canvas.getContext) {
-          var ctx = canvas.getContext('2d');
-          var center = canvas.width/2;
-          
-          ctx.fillStyle = "rgba(255, 255, 255, 1)";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-          var fname = document.getElementById('fname').value;
-          var lname = document.getElementById('lname').value;
-          var company = document.getElementById('company').value;
-          var nick = document.getElementById('nick').value;
-          
-          var qr = document.getElementById('qr').value;
-          
-          var sponsor = document.getElementById('sponsor').value;
-          var volunteer = document.getElementById('volunteer').value;
-          var speaker = document.getElementById('speaker').value;
-          
-          if (fname.length <= 0) {
-            fname = 'First';
-          }
-          if (lname.length <= 0) {
-            lname = 'Last';
-          }
-          
-          if (qr.length <= 0) {
-            qr = 'QR Code';
-          }
-          
-          /*
-          var img3 = new Image();
-          img3.onload = function() {
-            ctx.drawImage(img3,0,0);
-            ctx.font = "30pt 'Arial'";
-            ctx.fillStyle = "#000000";
-            ctx.fillText(msg, 10, 150);
-          }
-          img3.src = 'Calvin5.gif';
-          */
-          
-          // draw center fold
-          ctx.strokeStyle = "#EEEEEE";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(center, 0);
-          ctx.lineTo(center, canvas.height);
-          ctx.closePath();
-          ctx.stroke();
-          
-          ctx.font = "bold 25pt 'Arial'";
-          ctx.fillStyle = "#222266";
-          
-          ctx.fillText(fname, 70, 55);
-          ctx.fillText(fname, 70 + center, 55);
-          
-          ctx.fillText(lname, 70, 90);
-          ctx.fillText(lname, 70 + center, 90);
-          
-          ctx.font = "10pt 'Arial'";
-          ctx.fillStyle = "#222266";
-          
-          ctx.fillText(company, 70, 125);
-          ctx.fillText(company, 70 + center, 125);
-          
-          ctx.fillText(nick, 70, 150);
-          ctx.fillText(nick, 70 + center, 150);
-          
-          drawQR(el, qr, 50, 180, 3);
-          drawQR(el, qr, 610, 180, 3);
-          
-          if (sponsor == "silver") {
-            drawRibbon(el, "#DDDDDD", center - 200, 170, 400, 26);
-            ctx.font = "bold 11pt 'Arial'";
-            ctx.fillStyle = "#000000";
-            ctx.textBaseline = "middle";
-            ctx.textAlign = "right";
-            ctx.fillText('Silver Sponsor', center - 40, 183);
-            ctx.textAlign = "left";
-            ctx.fillText('Silver Sponsor', center + 40, 183);
-          }
-          else if (sponsor == "gold") {
-            drawRibbon(el, "#EDDA74", center - 200, 170, 400, 26);
-            ctx.font = "bold 11pt 'Arial'";
-            ctx.fillStyle = "#000000";
-            ctx.textBaseline = "middle";
-            ctx.textAlign = "right";
-            ctx.fillText('Gold Sponsor', center - 40, 183);
-            ctx.textAlign = "left";
-            ctx.fillText('Gold Sponsor', center + 40, 183);
-          }
-          
-          if (volunteer == "true") {
-            drawRibbon(el, "#990000", center - 180, 205, 360, 26);
-            ctx.font = "bold 11pt 'Arial'";
-            ctx.fillStyle = "#FFFFFF";
-            ctx.textBaseline = "middle";
-            ctx.textAlign = "right";
-            ctx.fillText("Volunteer", center - 40, 218);
-            ctx.textAlign = "left";
-            ctx.fillText("Volunteer", center + 40, 218);
-          }
-          
-          if (speaker == "true") {
-            drawRibbon(el, "#009900", center - 140, 240, 280, 26);
-            ctx.font = "bold 11pt 'Arial'";
-            ctx.fillStyle = "#FFFFFF";
-            ctx.textBaseline = "middle";
-            ctx.textAlign = "right";
-            ctx.fillText("Speaker", center - 40, 253);
-            ctx.textAlign = "left";
-            ctx.fillText("Speaker", center + 40, 253);
-          }
-        }
-      }
-      function drawRibbon(el, color, left, top, width, height) {
-        var canvas = document.getElementById(el);
-        if (canvas.getContext) {
-          var ctx = canvas.getContext('2d');
-          
-          ctx.fillStyle = color;
-          
-          ctx.beginPath();
-          ctx.moveTo(left, top);
-          ctx.lineTo(left + width, top);
-          ctx.lineTo(left + width - 10, top + height/2);
-          ctx.lineTo(left + width, top + height);
-          ctx.lineTo(left, top + height);
-          ctx.lineTo(left + 10, top + height/2);
-          ctx.fill();
-        }
-      }
-      function drawQR(el, text, left, top, dotsize) {
-        var codeVersion = 2; // 1-40 see http://www.denso-wave.com/qrcode/qrgene2-e.html
-        var errLevel = QRErrorCorrectLevel.L; // L, M, Q, or H
-        var padding = 10; // white area around QRCode
-        
-        if (dotsize < 1) {
-          dotsize = 1;
-        }
-        
-        var canvas = document.getElementById(el);
-        if (canvas.getContext) {
-          var ctx = canvas.getContext('2d');
-          
-          try {
-            // QR Code Error Correction Capability 
-            // Higher levels improves error correction capability while decreasing the amount of data QR Code size.
-            // QRErrorCorrectLevel.L (5%) QRErrorCorrectLevel.M (15%) QRErrorCorrectLevel.Q (25%) QRErrorCorrectLevel.H (30%)
-            // eg. L can survive approx 5% damage...etc.
-            var qr = new QRCode(codeVersion, errLevel); 
-            qr.addData(text);
-            qr.make();
-          }
-          catch(err) {
-            var errorChild = document.createElement("p");
-            var errorMSG = document.createTextNode("QR Code FAIL! " + err);
-            errorChild.appendChild(errorMSG);
-            return errorChild;
-          }
-          
-          var qrsize = qr.getModuleCount();
-          var shiftForPadding = padding/2;
-          
-          for (var r = 0; r < qrsize; r++) {
-            for (var c = 0; c < qrsize; c++) {
-              if (qr.isDark(r, c)) {
-                ctx.fillStyle = "rgb(0,0,0)"; // black
-              }
-              else {
-                ctx.fillStyle = "rgb(255,255,255)"; // white
-              }
-              ctx.fillRect ((c*dotsize) + shiftForPadding + left, (r*dotsize) + shiftForPadding + top, dotsize, dotsize);   // x, y, w, h
-            }  
-          }
-        }
-      }
-      function clearBadge(el) {
-        $('#input :input').val('');
-        drawBadge(el);
-      }
+      var printer = null;
+      var printerName = '';
+      
       $(document).ready(function(){
         drawBadge('badgecanvas');
+        drawBadge('badgecanvasfull', 2.4);
         $('#input :input').keyup(function() {
           drawBadge('badgecanvas');
+          drawBadge('badgecanvasfull', 2.4);
         });
         $('#input :input').change(function() {
           drawBadge('badgecanvas');
+          drawBadge('badgecanvasfull', 2.4);
         });
+        
+        try {
+          var dymoenv = dymo.label.framework.checkEnvironment();
+          if (!dymoenv.isBrowserSupported) {
+            if (dymoenv.errorDetails) {
+              throw dymoenv.errorDetails;
+            }
+            else {
+              throw "This browser is not supported.";
+            }
+          }
+          if (!dymoenv.isFrameworkInstalled) {
+            if (dymoenv.errorDetails) {
+              throw dymoenv.errorDetails;
+            }
+            else {
+              throw "The LabelWriter plugin is not installed.";
+            }
+          }
+          
+          var printers = dymo.label.framework.getPrinters();
+          if (printers.length == 0) {
+            throw "No DYMO printers are installed. Install DYMO printers.";
+          }
+          for (var i = 0; i < printers.length; ++i) {
+            printer = printers[i];
+            if (printer.printerType == "LabelWriterPrinter") {
+              printerName = printer.name;
+              $('#printerinfo').text(printer.name);
+              break;
+            }
+          }
+        }
+        catch (err) {
+          alert(err.message);
+        }
       });
     </script>
   </head>
   <body>
+    <div id="info">
+      <div id="printerinfo">No printer detected</div>
+    </div>
     <div id="input">
       <input type="text" id="fname" placeholder="First Name">
       <input type="text" id="lname" placeholder="Last Name">
-      <input type="text" id="company" placeholder="Company">
       <input type="text" id="nick" placeholder="Nickname">
+      <input type="text" id="title" placeholder="Title">
+      <input type="text" id="company" placeholder="Company">
       <input type="text" id="qr" placeholder="QR Input">
       <select id="sponsor" placeholder="QR Input">
         <option value="false" selected>Not a Sponsor</option>
         <option value="silver">Silver Sponsor</option>
         <option value="gold">Gold Sponsor</option>
       </select>
-      <select id="volunteer" placeholder="Volunteer">
-        <option value="false" selected>Not a Volunteer</option>
-        <option value="true">Volunteer</option>
-      </select>
       <select id="speaker" placeholder="Speaker">
         <option value="false" selected>Not a Speaker</option>
         <option value="true">Speaker</option>
       </select>
+      <select id="volunteer" placeholder="Volunteer">
+        <option value="false" selected>Not a Volunteer</option>
+        <option value="true">Volunteer</option>
+      </select>
+      <select id="staff" placeholder="Staff">
+        <option value="false" selected>Not Staff</option>
+        <option value="true">Staff</option>
+      </select>
       
-      <button onclick="printBadge('badgecanvas')">Print</button>
+      <button onclick="printBadge2Dymo('badgecanvasfull')">Print</button>
       <button onclick="clearBadge('badgecanvas')">Clear</button>
     </div>
     <div id="output">
-      <canvas id="badgecanvas" width="750" height="300">
+      <canvas id="badgecanvas" width="750" height="320">
+          Your browser does not support the canvas element.
+      </canvas>
+      <canvas id="badgecanvasfull" width="1800" height="768">
           Your browser does not support the canvas element.
       </canvas>
     </div>
+    <img id="labelPreview" />
   </body>
 </html>

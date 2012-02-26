@@ -1,0 +1,24 @@
+
+body {
+  background: #EEE;
+}
+
+#output {
+  background: transparent url(badge.png) top left no-repeat;
+  position: relative;
+  width: 750px;
+  height: 550px;
+  /*height: 1270px;*/
+}
+#badgecanvas {
+  position: absolute;
+  left: 0px;
+  top: 210px;
+  /*border: 1px solid #F00;*/
+}
+#badgecanvasfull {
+  position: absolute;
+  left: 0px;
+  top: 550px;
+  display: none;
+}
