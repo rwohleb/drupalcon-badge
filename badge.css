@@ -1,6 +1,44 @@
 
 body {
   background: #EEE;
+  padding: 20px;
+}
+
+#input {
+  float: left;
+  width: 300px;
+  height: 100%;
+}
+#input input,
+#input select,
+#input button {
+  display: block;
+  width: 280px;
+  height: 25px;
+}
+input#nick {
+  margin-top: 10px;
+}
+input#title {
+  margin-top: 10px;
+}
+input#qr {
+  display: none;
+}
+#input select {
+  margin-top: 10px;
+}
+select#sponsor {
+  margin-top: 30px;
+}
+#print {
+  margin-top: 50px;
+}
+#clear {
+  margin-top: 10px;
+}
+#info {
+  margin-top: 20px;
 }
 
 #output {
@@ -9,6 +47,8 @@ body {
   width: 750px;
   height: 550px;
   /*height: 1270px;*/
+  
+  float: left;
 }
 #badgecanvas {
   position: absolute;

@@ -64,15 +64,12 @@
     </script>
   </head>
   <body>
-    <div id="info">
-      <div id="printerinfo">No printer detected</div>
-    </div>
     <div id="input">
-      <input type="text" id="fname" placeholder="First Name">
-      <input type="text" id="lname" placeholder="Last Name">
-      <input type="text" id="nick" placeholder="Nickname">
-      <input type="text" id="title" placeholder="Title">
-      <input type="text" id="company" placeholder="Company">
+      <input type="text" id="fname" placeholder="First Name" maxlength="15">
+      <input type="text" id="lname" placeholder="Last Name" maxlength="22">
+      <input type="text" id="nick" placeholder="Nickname" maxlength="20">
+      <input type="text" id="title" placeholder="Title" maxlength="42">
+      <input type="text" id="company" placeholder="Company" maxlength="42">
       <input type="text" id="qr" placeholder="QR Input">
       <select id="sponsor" placeholder="QR Input">
         <option value="false" selected>Not a Sponsor</option>
@@ -92,8 +89,12 @@
         <option value="true">Staff</option>
       </select>
       
-      <button onclick="printBadge2Dymo('badgecanvasfull')">Print</button>
-      <button onclick="clearBadge('badgecanvas')">Clear</button>
+      <button id="print" onclick="printBadge2Dymo('badgecanvasfull')">Print</button>
+      <button id="clear" onclick="clearBadge('badgecanvas')">Clear</button>
+      
+      <div id="info">
+        <div id="printerinfo">No printer detected</div>
+      </div>
     </div>
     <div id="output">
       <canvas id="badgecanvas" width="750" height="320">

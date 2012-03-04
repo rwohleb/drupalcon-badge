@@ -130,12 +130,14 @@ function drawBadge(el, multiplier) {
     if (nick.length <= 0) {
       nick = 'Nick';
     }
+    /*
     if (title.length <= 0) {
       title = 'Title';
     }
     if (company.length <= 0) {
       company = 'Company';
     }
+    */
     
     if (qr.length <= 0) {
       //qr = 'QR Code';
