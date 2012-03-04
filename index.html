@@ -46,7 +46,7 @@
           
           var printers = dymo.label.framework.getPrinters();
           if (printers.length == 0) {
-            throw "No DYMO printers are installed. Install DYMO printers.";
+            throw "No DYMO printers are installed. Install a DYMO printer.";
           }
           for (var i = 0; i < printers.length; ++i) {
             printer = printers[i];
@@ -58,7 +58,7 @@
           }
         }
         catch (err) {
-          alert(err.message);
+          alert(err);
         }
       });
     </script>

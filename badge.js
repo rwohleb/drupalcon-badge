@@ -23,12 +23,9 @@ function printBadge2Dymo(el) {
      <DieCutLabel Version="8.0" Units="twips">\
        <PaperOrientation>Landscape</PaperOrientation>\
        <Id>NameBadge</Id>\
-       <PaperName>30256 Shipping</PaperName>\
+       <PaperName>99019 Large Lever Arch</PaperName>\
        <DrawCommands>\
-         <Path>\
-           <RoundRectangle X="0" Y="0" Width="3331" Height="5760" Rx="180" Ry="180"/>\
-           <RoundRectangle X="2880" Y="2520" Width="180" Height="720" Rx="120" Ry="120"/>\
-         </Path>\
+         <RoundRectangle X="0" Y="0" Width="3329" Height="10771" Rx="270" Ry="270"/>\
        </DrawCommands>\
        <ObjectInfo>\
          <ImageObject>\
@@ -74,6 +71,33 @@ function drawBadge(el, multiplier) {
     multiplier = 1;
   }
   
+  var black  = "#000000";
+  var white  = "#FFFFFF"
+  var ltBlue = "#74BED6";
+  var dkBlue = "#222266";
+  
+  var ribbonSilver = "#AAAAAA";
+  var ribbonGold   = "#B39C07";
+  var ribbonGreen  = "#009900";
+  var ribbonRed    = "#990000";
+  var ribbonBlue   = "#000077";
+  var ribbonText   = white;
+  var ribbonBorder = white;
+  
+  var useBlackWhite = true;
+  if (useBlackWhite) {
+    ltBlue = black;
+    dkBlue = black;
+    
+    ribbonSilver = white;
+    ribbonGold   = white;
+    ribbonGreen  = white;
+    ribbonRed    = white;
+    ribbonBlue   = white;
+    ribbonText   = black;
+    ribbonBorder = black;
+  }
+  
   var canvas = document.getElementById(el);
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
@@ -103,7 +127,6 @@ function drawBadge(el, multiplier) {
       lname = 'Last';
     }
     
-    /*
     if (nick.length <= 0) {
       nick = 'Nick';
     }
@@ -113,7 +136,6 @@ function drawBadge(el, multiplier) {
     if (company.length <= 0) {
       company = 'Company';
     }
-    */
     
     if (qr.length <= 0) {
       //qr = 'QR Code';
@@ -131,8 +153,17 @@ function drawBadge(el, multiplier) {
     img3.src = 'Calvin5.gif';
     */
     
+    // draw left cut
+    //ctx.strokeStyle = black;
+    //ctx.lineWidth = 1;
+    //ctx.beginPath();
+    //ctx.moveTo(0, 0);
+    //ctx.lineTo(0, canvas.height);
+    //ctx.closePath();
+    //ctx.stroke();
+    
     // draw center fold
-    ctx.strokeStyle = "#EEEEEE";
+    ctx.strokeStyle = black;
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(center, 0);
@@ -140,58 +171,67 @@ function drawBadge(el, multiplier) {
     ctx.closePath();
     ctx.stroke();
     
+    // draw right cut
+    ctx.strokeStyle = black;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width-1, 0);
+    ctx.lineTo(canvas.width-1, canvas.height);
+    ctx.closePath();
+    ctx.stroke();
+    
     ctx.font = "bold " + (21 * multiplier) + "pt 'Arial Black'";
-    ctx.fillStyle = "#222266";
+    ctx.fillStyle = dkBlue;
     
     ctx.fillText(fname, 65 * multiplier, 32 * multiplier);
     ctx.fillText(fname, (55 * multiplier) + center, 32 * multiplier);
     
     ctx.font = "bold " + (14 * multiplier) + "pt 'Arial Black'";
-    ctx.fillStyle = "#222266";
+    ctx.fillStyle = dkBlue;
     
     ctx.fillText(lname, 65 * multiplier, 55 * multiplier);
     ctx.fillText(lname, (55 * multiplier) + center, 55 * multiplier);
     
     ctx.font = "bold " + (16 * multiplier) + "pt 'Arial Black'";
-    ctx.fillStyle = "#3489AD";
+    ctx.fillStyle = ltBlue;
     
     ctx.fillText(nick, 65 * multiplier, 105 * multiplier);
     ctx.fillText(nick, (55 * multiplier) + center, 105 * multiplier);
     
     if (nick) {
-      drawDrop(el, "#74BED6", 44 * multiplier, 92 * multiplier, 8 * multiplier, 15 * multiplier);
-      drawDrop(el, "#74BED6", (34 * multiplier) + center, 92 * multiplier, 8 * multiplier, 15 * multiplier);
+      drawDrop(el, ltBlue, 44 * multiplier, 92 * multiplier, 8 * multiplier, 15 * multiplier);
+      drawDrop(el, ltBlue, (34 * multiplier) + center, 92 * multiplier, 8 * multiplier, 15 * multiplier);
     }
     
     ctx.font = (8 * multiplier) + "pt 'Arial Black'";
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = black;
     
-    ctx.fillText(title, 65 * multiplier, 145 * multiplier);
-    ctx.fillText(title, (55 * multiplier) + center, 145 * multiplier);
+    ctx.fillText(title, 65 * multiplier, 140 * multiplier);
+    ctx.fillText(title, (55 * multiplier) + center, 140 * multiplier);
     
-    ctx.fillText(company, 65 * multiplier, 160 * multiplier);
-    ctx.fillText(company, (55 * multiplier) + center, 160 * multiplier);
+    ctx.fillText(company, 65 * multiplier, 155 * multiplier);
+    ctx.fillText(company, (55 * multiplier) + center, 155 * multiplier);
     
-    drawQR(el, qr, 50 * multiplier, 175 * multiplier, 3 * multiplier);
-    drawQR(el, qr, 600 * multiplier, 175 * multiplier, 3 * multiplier);
+    drawQR(el, qr, 50 * multiplier, 165 * multiplier, 3 * multiplier);
+    drawQR(el, qr, 600 * multiplier, 165 * multiplier, 3 * multiplier);
     
     ctx.font = "bold " + (9 * multiplier) + "pt 'Arial'";
-    ctx.fillStyle = "#3489AD";
+    ctx.fillStyle = ltBlue;
     
-    ctx.fillText("Drupal", 62 * multiplier, 302 * multiplier);
-    ctx.fillText("Drupal", (52 * multiplier) + center, 302 * multiplier);
+    ctx.fillText("Drupal", 62 * multiplier, 290 * multiplier);
+    ctx.fillText("Drupal", (52 * multiplier) + center, 290 * multiplier);
     
-    ctx.font = (7 * multiplier) + "pt 'Arial'";
-    ctx.fillStyle = "#000000";
+    ctx.font = (8 * multiplier) + "pt 'Arial'";
+    ctx.fillStyle = black;
     
-    ctx.fillText("Association  *  Follow us @DrupalAssoc", 105 * multiplier, 302 * multiplier);
-    ctx.fillText("Association  *  Follow us @DrupalAssoc", (95 * multiplier) + center, 302 * multiplier);
+    ctx.fillText("Association  *  Follow us @DrupalAssoc", 105 * multiplier, 290 * multiplier);
+    ctx.fillText("Association  *  Follow us @DrupalAssoc", (95 * multiplier) + center, 290 * multiplier);
     
     if (sponsor == "silver") {
       //drawRibbon(el, "#DDDDDD", center - (200 * multiplier), 183 * multiplier, 400 * multiplier, 20 * multiplier);
-      drawRibbon(el, "#DDDDDD", center - (190 * multiplier), 183 * multiplier, 380 * multiplier, 20 * multiplier);
+      drawRibbon(el, ribbonSilver, ribbonBorder, center - (190 * multiplier), 183 * multiplier, 380 * multiplier, 20 * multiplier);
       ctx.font = "bold " + (9 * multiplier) + "pt 'Arial Black'";
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = ribbonText;
       ctx.textBaseline = "middle";
       ctx.textAlign = "right";
       ctx.fillText('Silver Sponsor', center - (53 * multiplier), 194 * multiplier);
@@ -199,9 +239,9 @@ function drawBadge(el, multiplier) {
       ctx.fillText('Silver Sponsor', center + (53 * multiplier), 194 * multiplier);
     }
     else if (sponsor == "gold") {
-      drawRibbon(el, "#B39C07", center - (190 * multiplier), 183 * multiplier, 380 * multiplier, 20 * multiplier);
+      drawRibbon(el, ribbonGold, ribbonBorder, center - (190 * multiplier), 183 * multiplier, 380 * multiplier, 20 * multiplier);
       ctx.font = "bold " + (9 * multiplier) + "pt 'Arial Black'";
-      ctx.fillStyle = "#FFFFFF";
+      ctx.fillStyle = ribbonText;
       ctx.textBaseline = "middle";
       ctx.textAlign = "right";
       ctx.fillText('Gold Sponsor', center - (53 * multiplier), 194 * multiplier);
@@ -210,9 +250,9 @@ function drawBadge(el, multiplier) {
     }
     
     if (speaker == "true") {
-      drawRibbon(el, "#009900", center - (175 * multiplier), 206 * multiplier, 350 * multiplier, 20 * multiplier);
+      drawRibbon(el, ribbonGreen, ribbonBorder, center - (175 * multiplier), 206 * multiplier, 350 * multiplier, 20 * multiplier);
       ctx.font = "bold " + (9 * multiplier) + "pt 'Arial Black'";
-      ctx.fillStyle = "#FFFFFF";
+      ctx.fillStyle = ribbonText;
       ctx.textBaseline = "middle";
       ctx.textAlign = "right";
       ctx.fillText("Speaker", center - (53 * multiplier), 216 * multiplier);
@@ -221,9 +261,9 @@ function drawBadge(el, multiplier) {
     }
     
     if (volunteer == "true") {
-      drawRibbon(el, "#990000", center - (160 * multiplier), 229 * multiplier, 320 * multiplier, 20 * multiplier);
+      drawRibbon(el, ribbonRed, ribbonBorder, center - (160 * multiplier), 229 * multiplier, 320 * multiplier, 20 * multiplier);
       ctx.font = "bold " + (9 * multiplier) + "pt 'Arial Black'";
-      ctx.fillStyle = "#FFFFFF";
+      ctx.fillStyle = ribbonText;
       ctx.textBaseline = "middle";
       ctx.textAlign = "right";
       ctx.fillText("Volunteer", center - (53 * multiplier), 240 * multiplier);
@@ -232,9 +272,9 @@ function drawBadge(el, multiplier) {
     }
     
     if (staff == "true") {
-      drawRibbon(el, "#000077", center - (143 * multiplier), 252 * multiplier, 286 * multiplier, 20 * multiplier);
+      drawRibbon(el, ribbonBlue, ribbonBorder, center - (143 * multiplier), 252 * multiplier, 286 * multiplier, 20 * multiplier);
       ctx.font = "bold " + (9 * multiplier) + "pt 'Arial Black'";
-      ctx.fillStyle = "#FFFFFF";
+      ctx.fillStyle = ribbonText;
       ctx.textBaseline = "middle";
       ctx.textAlign = "right";
       ctx.fillText("Staff", center - (53 * multiplier), 263 * multiplier);
@@ -244,12 +284,14 @@ function drawBadge(el, multiplier) {
   }
 }
 
-function drawRibbon(el, color, left, top, width, height) {
+function drawRibbon(el, fillColor, borderColor, left, top, width, height) {
   var canvas = document.getElementById(el);
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
     
-    ctx.fillStyle = color;
+    ctx.fillStyle = fillColor;
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 1;
     
     ctx.beginPath();
     ctx.moveTo(left, top);
@@ -258,7 +300,9 @@ function drawRibbon(el, color, left, top, width, height) {
     ctx.lineTo(left + width, top + height);
     ctx.lineTo(left, top + height);
     ctx.lineTo(left + 10, top + height/2);
+    ctx.closePath();
     ctx.fill();
+    ctx.stroke();
   }
 }
 
