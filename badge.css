@@ -9,6 +9,12 @@ body {
   width: 300px;
   height: 100%;
 }
+#input .inputpane {
+  border: 1px solid #CCC;
+  background: #DDD;
+  padding: 5px;
+  margin-top: 10px;
+}
 #input input,
 #input select,
 #input button {
@@ -23,7 +29,7 @@ input#title {
   margin-top: 10px;
 }
 input#qr {
-  display: none;
+  /*display: none;*/
 }
 #input select {
   margin-top: 10px;

@@ -66,6 +66,35 @@ function printBadge2Dymo(el) {
   }
 }
 
+function printFile2Dymo(el) {
+  var csv = new jscsv.Csv({
+    onRecord : function(rec) {
+      //console.log('received record', rec);
+      // ["Name", "First", "Last", "Email", "username", "Company", "Title", "Sponsor", "Membership", "Staff", "Volunteer", "Speaker", "QR Data"]
+      
+      document.getElementById('fname').value = rec[1];
+      document.getElementById('lname').value = rec[2];
+      document.getElementById('nick').value = rec[4];
+      document.getElementById('title').value = rec[6];
+      document.getElementById('company').value = rec[5];
+      
+      document.getElementById('qr').value = rec[12];
+      
+      document.getElementById('sponsor').value = rec[7] ? 'true' : 'false';
+      document.getElementById('volunteer').value = rec[10] ? 'true' : 'false';
+      document.getElementById('speaker').value = rec[11] ? 'true' : 'false';
+      document.getElementById('staff').value = rec[9] ? 'true' : 'false';
+      document.getElementById('member').value = rec[8] ? 'true' : 'false';
+      
+      drawBadge('badgecanvas');
+      drawBadge('badgecanvasfull', 2.4);
+      
+      printBadge2Dymo('badgecanvasfull');
+    }
+  });
+  csv.parse(document.getElementById('file').value);
+}
+
 function drawBadge(el, multiplier) {
   if (!multiplier) {
     multiplier = 1;
@@ -141,7 +170,7 @@ function drawBadge(el, multiplier) {
     
     if (qr.length <= 0) {
       //qr = 'QR Code';
-      qr = fname + " " + lname + ", " + nick + ", " + title + ", " + company;
+      //qr = fname + " " + lname + ", " + nick + ", " + title + ", " + company;
     }
     
     /*
@@ -229,6 +258,7 @@ function drawBadge(el, multiplier) {
     ctx.fillText("Association  *  Follow us @DrupalAssoc", 105 * multiplier, 290 * multiplier);
     ctx.fillText("Association  *  Follow us @DrupalAssoc", (95 * multiplier) + center, 290 * multiplier);
     
+    /*
     if (sponsor == "silver") {
       //drawRibbon(el, "#DDDDDD", center - (200 * multiplier), 183 * multiplier, 400 * multiplier, 20 * multiplier);
       drawRibbon(el, ribbonSilver, ribbonBorder, center - (190 * multiplier), 183 * multiplier, 380 * multiplier, 20 * multiplier);
@@ -249,6 +279,17 @@ function drawBadge(el, multiplier) {
       ctx.fillText('Gold Sponsor', center - (53 * multiplier), 194 * multiplier);
       ctx.textAlign = "left";
       ctx.fillText('Gold Sponsor', center + (53 * multiplier), 194 * multiplier);
+    }
+    */
+    if (sponsor == "true") {
+      drawRibbon(el, ribbonGold, ribbonBorder, center - (190 * multiplier), 183 * multiplier, 380 * multiplier, 20 * multiplier);
+      ctx.font = "bold " + (9 * multiplier) + "pt 'Arial Black'";
+      ctx.fillStyle = ribbonText;
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "right";
+      ctx.fillText('Sponsor', center - (53 * multiplier), 194 * multiplier);
+      ctx.textAlign = "left";
+      ctx.fillText('Sponsor', center + (53 * multiplier), 194 * multiplier);
     }
     
     if (speaker == "true") {

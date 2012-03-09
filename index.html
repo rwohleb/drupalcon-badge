@@ -8,6 +8,7 @@
     <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="qrcode.js"></script>
     <script type="text/javascript" src="badge.js"></script>
+    <script type="text/javascript" src="csv.js"></script>
     <script type="text/javascript" src="DYMO.Label.Framework.1.2.4.js"></script>
     <script type="text/javascript">
       var printer = null;
@@ -24,6 +25,13 @@
           drawBadge('badgecanvas');
           drawBadge('badgecanvasfull', 2.4);
         });
+        
+        $('#inputtype').change(function() {
+          var inputtype = $('#inputtype');
+          
+          $('.inputpane').hide();
+          $('#' + inputtype.val()).show();
+        }).change();
         
         try {
           var dymoenv = dymo.label.framework.checkEnvironment();
@@ -65,32 +73,45 @@
   </head>
   <body>
     <div id="input">
-      <input type="text" id="fname" placeholder="First Name" maxlength="15">
-      <input type="text" id="lname" placeholder="Last Name" maxlength="22">
-      <input type="text" id="nick" placeholder="Nickname" maxlength="20">
-      <input type="text" id="title" placeholder="Title" maxlength="42">
-      <input type="text" id="company" placeholder="Company" maxlength="42">
-      <input type="text" id="qr" placeholder="QR Input">
-      <select id="sponsor" placeholder="QR Input">
-        <option value="false" selected>Not a Sponsor</option>
-        <option value="silver">Silver Sponsor</option>
-        <option value="gold">Gold Sponsor</option>
+      <select id="inputtype">
+        <option value="singleinput" selected>Single Input</option>
+        <option value="fileinput">CSV Input</option>
       </select>
-      <select id="speaker" placeholder="Speaker">
-        <option value="false" selected>Not a Speaker</option>
-        <option value="true">Speaker</option>
-      </select>
-      <select id="volunteer" placeholder="Volunteer">
-        <option value="false" selected>Not a Volunteer</option>
-        <option value="true">Volunteer</option>
-      </select>
-      <select id="staff" placeholder="Staff">
-        <option value="false" selected>Not Staff</option>
-        <option value="true">Staff</option>
-      </select>
+      <div id="singleinput" class="inputpane">
+        <input type="text" id="fname" placeholder="First Name" maxlength="15">
+        <input type="text" id="lname" placeholder="Last Name" maxlength="22">
+        <input type="text" id="nick" placeholder="Nickname" maxlength="20">
+        <input type="text" id="title" placeholder="Title" maxlength="42">
+        <input type="text" id="company" placeholder="Company" maxlength="42">
+        <input type="text" id="qr" placeholder="QR Input">
+        <select id="sponsor" placeholder="QR Input">
+          <option value="false" selected>Not a Sponsor</option>
+          <option value="true">Sponsor</option>
+        </select>
+        <select id="speaker" placeholder="Speaker">
+          <option value="false" selected>Not a Speaker</option>
+          <option value="true">Speaker</option>
+        </select>
+        <select id="volunteer" placeholder="Volunteer">
+          <option value="false" selected>Not a Volunteer</option>
+          <option value="true">Volunteer</option>
+        </select>
+        <select id="staff" placeholder="Staff">
+          <option value="false" selected>Not Staff</option>
+          <option value="true">Staff</option>
+        </select>
+        <select id="member" placeholder="Membership">
+          <option value="false" selected>Not a Member</option>
+          <option value="true">Membership</option>
+        </select>
       
-      <button id="print" onclick="printBadge2Dymo('badgecanvasfull')">Print</button>
-      <button id="clear" onclick="clearBadge('badgecanvas')">Clear</button>
+        <button id="print" onclick="printBadge2Dymo('badgecanvasfull')">Print</button>
+        <button id="clear" onclick="clearBadge('badgecanvas')">Clear</button>
+      </div>
+      <div id="fileinput" class="inputpane">
+        <textarea id="file" cols="35" rows="30"></textarea>
+        <button id="print" onclick="printFile2Dymo('badgecanvasfull')">Print</button>
+      </div>
       
       <div id="info">
         <div id="printerinfo">No printer detected</div>
