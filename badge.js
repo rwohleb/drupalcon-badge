@@ -75,6 +75,7 @@ function printFile2Dymo(el) {
       document.getElementById('fname').value = rec[1];
       document.getElementById('lname').value = rec[2];
       document.getElementById('nick').value = rec[4];
+      document.getElementById('email').value = rec[3];
       document.getElementById('title').value = rec[6];
       document.getElementById('company').value = rec[5];
       
@@ -139,6 +140,7 @@ function drawBadge(el, multiplier) {
     var fname = document.getElementById('fname').value;
     var lname = document.getElementById('lname').value;
     var nick = document.getElementById('nick').value;
+    var email = document.getElementById('email').value;
     var title = document.getElementById('title').value;
     var company = document.getElementById('company').value;
     
@@ -170,7 +172,8 @@ function drawBadge(el, multiplier) {
     
     if (qr.length <= 0) {
       //qr = 'QR Code';
-      //qr = fname + " " + lname + ", " + nick + ", " + title + ", " + company;
+      // 'Sven','Aas','sven.aas@gmail.com','svenaas','Mount Hoyoke College','Web Team Lead'
+      qr = "'" + fname + "','" + lname + "','" + email + "','" + nick + "','" + company + "','" + title + "'";
     }
     
     /*
@@ -243,8 +246,8 @@ function drawBadge(el, multiplier) {
     ctx.fillText(company, 65 * multiplier, 155 * multiplier);
     ctx.fillText(company, (55 * multiplier) + center, 155 * multiplier);
     
-    drawQR(el, qr, 50 * multiplier, 165 * multiplier, 3 * multiplier);
-    drawQR(el, qr, 600 * multiplier, 165 * multiplier, 3 * multiplier);
+    drawQR(el, qr, 50 * multiplier, 175 * multiplier, 2 * multiplier);
+    drawQR(el, qr, 600 * multiplier, 175 * multiplier, 2 * multiplier);
     
     ctx.font = "bold " + (9 * multiplier) + "pt 'Arial'";
     ctx.fillStyle = ltBlue;
@@ -366,7 +369,7 @@ function drawDrop(el, color, left, top, width, height) {
 }
 
 function drawQR(el, text, left, top, dotsize) {
-  var codeVersion = 4; // 1-40 see http://www.denso-wave.com/qrcode/qrgene2-e.html
+  var codeVersion = 6; // 1-40 see http://www.denso-wave.com/qrcode/qrgene2-e.html
   var errLevel = QRErrorCorrectLevel.L; // L, M, Q, or H
   var padding = 10; // white area around QRCode
   
